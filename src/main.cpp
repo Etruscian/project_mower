@@ -4,7 +4,7 @@
 
 uint8_t address[] = {0x00, 0xFD, 0xEA, 0xDB, 0xEE};
 RF24 radio(49,53);
-int i = 0;
+float i = 0;
 Controller controller;
 
 // void interruptRoutine(void){
@@ -26,7 +26,6 @@ void setup() {
     // radio.setChannel(101);
     // radio.setAutoAck(0,true);
     // radio.startListening();
-    // i = 0;
 }
 
 void loop() {
@@ -34,15 +33,15 @@ void loop() {
         char input = Serial.read();
         if (input == 's'){
             if (i>0){
-                i = i-0.01;
+                i = i-5;
                 controller.update(i,0);
-                Serial.println((int)(i*100));
+                Serial.println((int)(i));
             }
         } else if (input == 'w'){
-            if (i<1){
-                i = i-0.01;
+            if (i<100){
+                i = i+5;
                 controller.update(i,0);
-                Serial.println((int)(i*100));
+                Serial.println((int)(i));
             }
         } else if (input == 'i'){
             controller.enableMotors(true);
