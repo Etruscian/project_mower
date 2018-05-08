@@ -15,6 +15,7 @@ class Controller
 
     void update(float throttle, float direction)
     {
+        _steeringGain = 1 - 0.8*throttle**2;
         if( _leftMotor._isEnabled)
             _leftMotor.setSpeed(throttle + direction * _steeringGain);
         if( _rightMotor._isEnabled)
@@ -30,7 +31,7 @@ class Controller
   private:
     Motor _leftMotor;
     Motor _rightMotor;
-    float _steeringGain = 0.3;
+    float _steeringGain ; //= 0.3;
 };
 
 #endif
