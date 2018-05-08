@@ -16,7 +16,7 @@ class Controller
     void update(float throttle, float direction)
     {
         filterThrottle = 0.995*filterThrottle + 0.005*throttle;     // filtered throttle as speed estimate, 100Hz, in 2s op topSpeed
-        _steeringGain = 1 - 0.8*filterThrottle**2;        // 0.8 value is arbitrary, _steeringGain [0,1]
+        _steeringGain = 1 - 0.8*filterThrottle*filterThrottle;        // 0.8 value is arbitrary, _steeringGain [0,1]
         uSteer = direction * _steeringGain;         // direction [-1,1]
         x1 = 0.2;                                   // input = 0.2
         y1 = 0.35;                                  // output = 0.35

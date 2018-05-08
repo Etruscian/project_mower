@@ -20,7 +20,7 @@ void setup() {
     radio.openReadingPipe(0, 0x00FDEADBEE);
     radio.setCRCLength(RF24_CRC_16);
     radio.setDataRate(RF24_250KBPS);
-    radio.setPayloadSize(10);
+    radio.setPayloadSize(17);
     radio.setChannel(101);
     radio.setAutoAck(0,true);
     radio.startListening();
