@@ -1,11 +1,11 @@
 #include <Arduino.h>
 #include <RF24.h>
-#include <motor.hpp>
+#include <controller.hpp>
 
 uint8_t address[] = {0x00, 0xFD, 0xEA, 0xDB, 0xEE};
 RF24 radio(49,53);
-int i = 127;
-Motor leftMotor(34, 2);
+int i = 0;
+Controller controller;
 
 // void interruptRoutine(void){
 //     Serial.println("hi");
@@ -32,23 +32,23 @@ void setup() {
 void loop() {
     if (Serial.available()){
         char input = Serial.read();
-        if (input == 's'){ // Slow down means higher pwm
-            if (i<127){
-                i++;
-                Serial.println(i);
+        if (input == 's'){
+            if (i>0){
+                i = i-0.01;
+                controller.update(i,0);
+                Serial.println((int)(i*100));
             }
-            leftMotor.setSpeed(i);
-        } else if (input == 'w'){ // Speed up means lower pwm
-            if (i>1){
-                i--;
-                Serial.println(i);
+        } else if (input == 'w'){
+            if (i<1){
+                i = i-0.01;
+                controller.update(i,0);
+                Serial.println((int)(i*100));
             }
-            leftMotor.setSpeed(i);
         } else if (input == 'i'){
-            leftMotor.enableMotor(true);
+            controller.enableMotors(true);
             Serial.println("Motor on");
         } else if (input == 'u'){
-            leftMotor.enableMotor(false);
+            controller.enableMotors(false);
             Serial.println("Motor off");
         }
     }
