@@ -27,7 +27,7 @@ class Motor
 
     void setSpeed(int value)
     {
-        value = map(value * 100, 0, 100, 135, 0);
+        value = map(value, 0, 100, 135, 0);
         analogWrite(_pwmPin, value);
     };
 

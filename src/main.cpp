@@ -55,7 +55,7 @@ void interruptRoutine(void)
         switch1 = (rxBuffer[16] >> 1) & 1;
         switch2 = rxBuffer[16] & 1;
         controller.enableMotors(switch1);
-        controller.update(rxData[0].f, rxData[1].f);
+        controller.update(rxData[0].f*100, rxData[1].f);
     }
 }
 
