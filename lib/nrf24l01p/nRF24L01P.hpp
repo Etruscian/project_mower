@@ -44,48 +44,48 @@
 /**
  * Defines
  */
-#define NRF24L01P_TX_PWR_ZERO_DB         0
-#define NRF24L01P_TX_PWR_MINUS_6_DB     -6
-#define NRF24L01P_TX_PWR_MINUS_12_DB   -12
-#define NRF24L01P_TX_PWR_MINUS_18_DB   -18
+#define NRF24L01P_TX_PWR_ZERO_DB 0
+#define NRF24L01P_TX_PWR_MINUS_6_DB -6
+#define NRF24L01P_TX_PWR_MINUS_12_DB -12
+#define NRF24L01P_TX_PWR_MINUS_18_DB -18
 
-#define NRF24L01P_DATARATE_250_KBPS    250
-#define NRF24L01P_DATARATE_1_MBPS     1000
-#define NRF24L01P_DATARATE_2_MBPS     2000
+#define NRF24L01P_DATARATE_250_KBPS 250
+#define NRF24L01P_DATARATE_1_MBPS 1000
+#define NRF24L01P_DATARATE_2_MBPS 2000
 
-#define NRF24L01P_CRC_NONE               0
-#define NRF24L01P_CRC_8_BIT              8
-#define NRF24L01P_CRC_16_BIT            16
+#define NRF24L01P_CRC_NONE 0
+#define NRF24L01P_CRC_8_BIT 8
+#define NRF24L01P_CRC_16_BIT 16
 
-#define NRF24L01P_MIN_RF_FREQUENCY    2400
-#define NRF24L01P_MAX_RF_FREQUENCY    2525
+#define NRF24L01P_MIN_RF_FREQUENCY 2400
+#define NRF24L01P_MAX_RF_FREQUENCY 2525
 
-#define NRF24L01P_PIPE_P0                0
-#define NRF24L01P_PIPE_P1                1
-#define NRF24L01P_PIPE_P2                2
-#define NRF24L01P_PIPE_P3                3
-#define NRF24L01P_PIPE_P4                4
-#define NRF24L01P_PIPE_P5                5
+#define NRF24L01P_PIPE_P0 0
+#define NRF24L01P_PIPE_P1 1
+#define NRF24L01P_PIPE_P2 2
+#define NRF24L01P_PIPE_P3 3
+#define NRF24L01P_PIPE_P4 4
+#define NRF24L01P_PIPE_P5 5
 
 /**
 * Default setup for the nRF24L01+, based on the Sparkfun "Nordic Serial Interface Board"
 *  for evaluation (http://www.sparkfun.com/products/9019)
 */
-#define DEFAULT_NRF24L01P_ADDRESS       ((unsigned long long) 0xE7E7E7E7E7 )
-#define DEFAULT_NRF24L01P_ADDRESS_WIDTH  5
-#define DEFAULT_NRF24L01P_CRC            NRF24L01P_CRC_8_BIT
-#define DEFAULT_NRF24L01P_RF_FREQUENCY  (NRF24L01P_MIN_RF_FREQUENCY + 2)
-#define DEFAULT_NRF24L01P_DATARATE       NRF24L01P_DATARATE_1_MBPS
-#define DEFAULT_NRF24L01P_TX_PWR         NRF24L01P_TX_PWR_ZERO_DB
-#define DEFAULT_NRF24L01P_TRANSFER_SIZE  4
+#define DEFAULT_NRF24L01P_ADDRESS ((unsigned long long)0xE7E7E7E7E7)
+#define DEFAULT_NRF24L01P_ADDRESS_WIDTH 5
+#define DEFAULT_NRF24L01P_CRC NRF24L01P_CRC_8_BIT
+#define DEFAULT_NRF24L01P_RF_FREQUENCY (NRF24L01P_MIN_RF_FREQUENCY + 2)
+#define DEFAULT_NRF24L01P_DATARATE NRF24L01P_DATARATE_1_MBPS
+#define DEFAULT_NRF24L01P_TX_PWR NRF24L01P_TX_PWR_ZERO_DB
+#define DEFAULT_NRF24L01P_TRANSFER_SIZE 4
 
 /**
  * nRF24L01+ Single Chip 2.4GHz Transceiver from Nordic Semiconductor.
  */
-class nRF24L01P {
+class nRF24L01P
+{
 
-public:
-
+  public:
     /**
      * Constructor.
      *
@@ -215,7 +215,6 @@ public:
      */
     int getTransferSize(int pipe = NRF24L01P_PIPE_P0);
 
-
     /**
      * Get the RPD (Received Power Detector) state.
      *
@@ -313,7 +312,6 @@ public:
      */
     void enableAutoRetransmit(int delay, int count);
 
-
     int getStatusRegister(void);
 
     /**
@@ -332,27 +330,29 @@ public:
      */
     void setRegister(int regAddress, int regData);
 
-    int writeAcknowledgePayload(int pipe, uint8_t * package, uint8_t length);
+    int writeAcknowledgePayload(int pipe, uint8_t *package, uint8_t length);
 
     void flushTX(void);
     void flushRX(void);
 
-private:
-    void nCS_(uint8_t state){
+  private:
+    void nCS_(int state)
+    {
         digitalWrite(_nCS, state);
-    }
+    };
 
-    void ce_(uint8_t state){
+    void ce_(int state)
+    {
         digitalWrite(_ce, state);
-    }
+    };
 
-    uint8_t spiTransfer(uint8_t value){
+    uint8_t spiTransfer(int value)
+    {
         return SPI.transfer(value);
-    }
+    };
 
     uint8_t _nCS, _ce;
     int mode;
-
 };
 
 #endif /* __NRF24L01P_H__ */
