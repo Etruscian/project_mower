@@ -55,12 +55,15 @@ void interruptRoutine(void)
         switch1 = (rxBuffer[16] >> 1) & 1;
         switch2 = rxBuffer[16] & 1;
         controller.enableMotors(switch1);
-        controller.update(rxData[0].f*100, rxData[1].f);
+        controller.update(rxData[0].f*100, rxData[1].f/100.0);
     }
 }
 
 void setup()
 {
+    TCCR4A = _BV(COM2A1) | _BV(COM2B1) | _BV(WGM21) | _BV(WGM20);
+    TCCR4B = TCCR4B & (0b11111000 | 0x03);
+
     Serial.begin(9600);
     SPI.begin();
     radio.initialize();

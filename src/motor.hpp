@@ -7,6 +7,7 @@ class Motor
 {
   public:
     bool _isEnabled = false;
+    uint8_t _motorNumber;
 
     void initialze(uint8_t enablePin, uint8_t pwmPin)
     {
@@ -16,7 +17,10 @@ class Motor
         pinMode(_enablePin, OUTPUT);
         digitalWrite(_enablePin, LOW);
         pinMode(_pwmPin, OUTPUT);
-        analogWrite(_pwmPin, _zeroPower);
+        if (_motorNumber)
+            OCR4A = _zeroPower;
+        else
+            OCR4B = _zeroPower;
     };
 
     void enableMotor(bool toggle)
@@ -25,14 +29,17 @@ class Motor
         _isEnabled = toggle;
     };
 
-    void setSpeed(int value)
+    void setSpeed(float value)
     {
-        value = map(value, 0, 100, 135, 0);
-        analogWrite(_pwmPin, value);
+        value = 600.0-(value/100.0*600.0);
+        if (_motorNumber)
+            OCR4A = (int)value;
+        else
+            OCR4B = (int)value;
     };
 
   private:
-    static const int _zeroPower = 127;
+    static const int _zeroPower = 600;
     int _enablePin, _pwmPin;
 };
 
