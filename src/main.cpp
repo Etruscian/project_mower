@@ -2,6 +2,7 @@
 #include <SPI.h>
 #include "nRF24L01P.hpp"
 #include <controller.hpp>
+#include <canons.hpp>
 
 union transferBuffer {
     float f;
@@ -11,6 +12,7 @@ union transferBuffer {
 nRF24L01P radio(49, 53);
 float i = 0;
 Controller controller;
+Canons canons;
 uint8_t status;
 char rxBuffer[17];
 transferBuffer rxData[4];
@@ -68,8 +70,6 @@ void setup()
     SPI.begin();
     radio.initialize();
     attachInterrupt(digitalPinToInterrupt(2), interruptRoutine, FALLING);
-    Serial.println("Motor off");
-    Serial.println(radio.getStatusRegister());
     radio.setRfFrequency(2400 + 101);
     radio.setTransferSize(17);
     radio.setCrcWidth(16);
@@ -81,6 +81,10 @@ void setup()
     radio.setReceiveMode();
     radio.powerUp();
     radio.enable();
+    Serial.println(canons.fire());
+    Serial.println(canons.fire());
+    Serial.println(canons.fire());
+    Serial.println(canons.fire());
 }
 
 void loop()
